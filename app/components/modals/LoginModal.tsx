@@ -46,7 +46,7 @@ export default function LoginModal() {
 
       if (callback?.ok) {
         toast.success('Logged In');
-        // router.refresh();
+        router.refresh();
         loginModal.onClose();
       }
 

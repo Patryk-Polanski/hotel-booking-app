@@ -10,9 +10,8 @@ export async function getSession() {
 export default async function getCurrentUser() {
   try {
     const session = await getSession();
-    console.log(session, session, session?.user?.email);
+    console.log(session);
     if (!session?.user?.email) {
-      console.log('no session');
       return null;
     }
 

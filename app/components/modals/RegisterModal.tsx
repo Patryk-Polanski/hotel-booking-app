@@ -9,6 +9,7 @@ import { type FieldValues, type SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import useLoginModal from '@/app/hooks/useLoginModal';
 import Modal from './Modal';
 import Heading from '../Heading';
 import Input from '../Inputs/Input';
@@ -16,6 +17,7 @@ import Button from '../Button';
 
 export default function RegisterModal() {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -46,6 +48,11 @@ export default function RegisterModal() {
         setIsLoading(false);
       });
   };
+
+  const toggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
@@ -97,7 +104,7 @@ export default function RegisterModal() {
         <div className='justify-center flex flex-row items-center gap-2'>
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggle}
             className='text-neutral-800 cursor-pointer hover:underline'
           >
             Log in

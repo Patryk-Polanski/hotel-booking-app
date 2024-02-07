@@ -9,6 +9,7 @@ import Modal from './Modal';
 import useRentModal from '@/app/hooks/useRentModal';
 import Heading from '../Heading';
 import CategoryInput from '../Inputs/CategoryInput';
+import CountrySelect from '../Inputs/CountrySelect';
 
 enum STEPS {
   CATEGORY = 0,
@@ -45,6 +46,7 @@ export default function RentModal() {
   });
 
   const category = watch('category');
+  const location = watch('location');
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -98,11 +100,26 @@ export default function RentModal() {
     </div>
   );
 
+  if (step === STEPS.LOCATION) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title='Where is your place located?'
+          subtitle='Help guests find you'
+        />
+        <CountrySelect
+          onChange={(value) => setCustomValue('location', value)}
+          value={location}
+        />
+      </div>
+    );
+  }
+
   return (
     <Modal
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
-      onSubmit={rentModal.onClose}
+      onSubmit={onNext}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}

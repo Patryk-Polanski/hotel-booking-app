@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { type FieldValues, useForm } from 'react-hook-form';
 
 import { categories } from '../navbar/Categories';
@@ -47,6 +48,14 @@ export default function RentModal() {
 
   const category = watch('category');
   const location = watch('location');
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import('../Map'), {
+        ssr: false,
+      }),
+    [location]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -111,6 +120,7 @@ export default function RentModal() {
           onChange={(value) => setCustomValue('location', value)}
           value={location}
         />
+        <Map center={location?.latlng} />
       </div>
     );
   }

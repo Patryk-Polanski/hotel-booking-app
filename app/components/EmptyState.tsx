@@ -13,7 +13,7 @@ interface EmptyStateProps {
 
 export default function EmptyState({
   title = 'No exact matches',
-  subtitle = 'try Changing or removing some of your filters',
+  subtitle = 'Try changing or removing some of your filters',
   showReset,
 }: EmptyStateProps) {
   const router = useRouter();

@@ -6,6 +6,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { Reservation } from '@prisma/client';
 import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
+import { type Range } from 'react-date-range';
 
 import { SafeListing, SafeUser } from '@/app/types';
 import { categories } from '@/app/components/navbar/Categories';
@@ -14,6 +15,7 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import Container from '@/app/components/Container';
 import ListingHead from '@/app/components/listings/ListingHead';
 import ListingInfo from './ListingInfo';
+import ListingReservation from './ListingReservation';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -50,7 +52,7 @@ export default function ListingClient({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) {
@@ -117,7 +119,7 @@ export default function ListingClient({
             id={listing.id}
             currentUser={currentUser}
           />
-          <div className='grid grid-cols-1 md:grid-cols-1 md:gap-10 mt-6'>
+          <div className='grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6'>
             <ListingInfo
               user={listing.user}
               category={category}
@@ -127,7 +129,17 @@ export default function ListingClient({
               bathroomCount={listing.bathroomCount}
               locationValue={listing.locationValue}
             />
-            <div className='order-first mb-10 md:order-last md:col-span-3'></div>
+            <div className='order-first mb-10 md:order-last md:col-span-3'>
+              <ListingReservation
+                price={listing.price}
+                totalPrice={totalPrice}
+                onChangeDate={(value) => setDateRange(value)}
+                dateRange={dateRange}
+                onSubmit={onCreateReservation}
+                disabled={isLoading}
+                disabledDates={disabledDates}
+              />
+            </div>
           </div>
         </div>
       </div>

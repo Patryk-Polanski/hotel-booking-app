@@ -69,7 +69,6 @@ export default function ListingClient({
       .then(() => {
         toast.success('Listing Reserved');
         setDateRange(initialDateRange);
-        router.push('/trips');
       })
       .catch((error) => {
         toast.error('Something went wrong');
@@ -83,7 +82,6 @@ export default function ListingClient({
     dateRange.startDate,
     listing?.id,
     loginModal,
-    router,
     totalPrice,
   ]);
 

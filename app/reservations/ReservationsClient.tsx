@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import toast from 'react-hot-toast';
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-import { safeReservation, SafeUser } from '../types';
+import { safeReservation, SafeUser } from "../types";
 
-import Container from '../components/Container';
-import Heading from '../components/Heading';
-import ListingCard from '../components/listings/ListingCard';
+import Container from "../components/Container";
+import Heading from "../components/Heading";
+import ListingCard from "../components/listings/ListingCard";
 
 interface ReservationsClientProps {
   reservations: safeReservation[];
@@ -21,7 +21,7 @@ export default function ReservationsClient({
   currentUser,
 }: ReservationsClientProps) {
   const router = useRouter();
-  const [deletingId, setDeletingId] = useState('');
+  const [deletingId, setDeletingId] = useState("");
 
   const onCancel = useCallback(
     (id: string) => {
@@ -29,23 +29,23 @@ export default function ReservationsClient({
       axios
         .delete(`/api/reservations/${id}`)
         .then(() => {
-          toast.success('Reservation cancelled');
+          toast.success("Reservation cancelled");
           router.refresh();
         })
         .catch(() => {
-          toast.error('Something went wrong. Try again later');
+          toast.error("Something went wrong. Try again later");
         })
         .finally(() => {
-          setDeletingId('');
+          setDeletingId("");
         });
     },
-    [router]
+    [router],
   );
 
   return (
     <Container>
-      <Heading title='Reservations' subtitle='Bookings on your properties' />
-      <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
+      <Heading title="Reservations" subtitle="Bookings on your properties" />
+      <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {reservations.map((reservation) => (
           <ListingCard
             key={reservation.id}
@@ -54,7 +54,7 @@ export default function ReservationsClient({
             actionId={reservation.id}
             disabled={deletingId === reservation.id}
             onAction={onCancel}
-            actionLabel='Cancel guest reservation'
+            actionLabel="Cancel guest reservation"
             currentUser={currentUser}
           />
         ))}
